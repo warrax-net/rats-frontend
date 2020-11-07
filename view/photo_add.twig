@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <title>Contact Form Tutorial by Bootstrapious.com</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+        <link href='photo.css' rel='stylesheet' type='text/css'>
+        <script
+            src="https://code.jquery.com/jquery-3.5.1.min.js"
+            integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+            crossorigin="anonymous"></script>
+            <script src="https://code.jquery.com/jquery-migrate-3.3.1.min.js" integrity="sha256-APllMc0V4lf/Rb5Cz4idWUCYlBDG3b0EcN1Ushd3hpE=" crossorigin="anonymous"></script>
+        <script>
+            $(document).ready(function(){
+                $( ".add-row" ).click(function(){
+                    var $clone = $("div.rat-ids" ).last().clone();
+                    
+                    $clone.insertBefore( ".rat-block" );
+                    var select = $("div.rat-ids:last > select.rat-ids");
+                    var label = $("div.rat-ids:last > label.rat-ids");
+                    var str = select.attr('id');
+                    var res = str.split("[")[1];
+                    var str = res.substring(0, 1);
+                    var i = parseInt(str);
+                    i++;
+                    if (i == 1) {
+                        $clone.append( "<button type='button' class='remove-row' style='float: right;'> - </button>" );
+                    }
+                    select.attr({'id':"rat_ids[" + i + "]", 'name':"rat_ids[" + i + "]"});
+                    label.attr({'for':"rat_ids[" + i + "]"});
+                });
+                
+                $( "#photo-form" ).on("click", ".remove-row", function(){
+                    $(this).parent().remove();
+                });
+                $('#url').change(function() {
+                    let imgPath = $('#url').val();
+                    $(`<img width='640' src='${imgPath}'>`).appendTo('.messages');
+                });
+            });
+
+            
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-10">
+                    <h1>Крысаки</h1>
+                    <h3>Добавить новое фото</h3>
+                    <form id="photo-form" method="post" action="form_add.php" role="form">
+                        <div class="messages">
+                            <p>{% if success != '' %}{{  success }}{% endif %}</p>
+                        </div>
+                        <div class="controls">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="title">Название *</label>
+                                        <input id="title" type="text" name="title" class="form-control" placeholder="Пожалуйста введите заголовок фото *" required="required" data-error="Заговолок не может быть пустым.">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="description">Описание *</label>
+                                        <textarea id="description" name="description" class="form-control" placeholder="Пожалуйста введите описание *" required="required" data-error="Описание не может быть пустым." rows="5"></textarea>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="url">URI фото *</label>
+                                        <input id="url" type="text" name="url" class="form-control" placeholder="Пожалуйста введите ссылку на фото *" required="required" data-error="Ссылка не может быть пустой.">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="date_d">День *</label>
+                                        <select id="date_d" name="date_d" class="form-control" required="required" data-error="Пожалуйста выберите день.">
+                                            <option value="-1"> - </option>
+                                            {% for day in days %}
+                                                {% if day.val == post.date_d %}
+                                                    <option selected value="{{ day.val }}"> {{ day.name }} </option>
+                                                {% else %}
+                                                    <option value="{{ day.val }}"> {{ day.name }} </option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="date_m">Месяц *</label>
+                                        <select id="date_m" name="date_m" class="form-control" required="required" data-error="Пожалуйста выберите месяц.">
+                                            <option value="-1"> - </option>
+                                            {% for month in months %}
+                                                {% if month.val == post.date_m %}
+                                                    <option selected value="{{ month.val }}"> {{ month.name }} </option>
+                                                {% else %}
+                                                    <option value="{{ month.val }}"> {{ month.name }} </option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="date_y">Год *</label>
+                                        <select id="date_y" name="date_y" class="form-control" required="required" data-error="Пожалуйста выберите год.">
+                                            <option value="-1"> - </option>
+                                            {% for year in years %}
+                                                {% if year == post.date_y %}
+                                                    <option selected value="{{ year }}"> {{ year }} </option>
+                                                {% else %}
+                                                    <option value="{{ year }}"> {{ year }} </option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group rat-ids">
+                                        <label style="float: left;" for="rat_ids[0]" class="rat-ids">Крысаки на фото: *</label>
+                                        <select style="margin-left: 20px; float: left; width: 75%;" id="rat_ids[0]" name="rat_ids[0]" class="rat-ids form-control" required="required" data-error="Пожалуйста выберите крысака">
+                                            <option value=""></option>
+                                            {% for rat in rats %}
+                                                <option value="{{ rat.id }}">{{ rat.name }} ({% if rat.birth_date_d > 0 %}{{ rat.birth_date_d }}.{% endif %}{{ rat.birth_date_m }}.{{ rat.birth_date_y }} — {% if rat.death_date_d > 0 %}{{ rat.death_date_d }}.{% endif %}{{ rat.death_date_m }}.{{ rat.death_date_y }}, {{ rat.color }})</option>
+                                            {% endfor %}
+                                        </select>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                    <div class="rat-block"></div>
+                                </div>
+                            </div>
+                            <div class="row add-row-div">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <button type="button" class="add-row"> Добавить крысака + </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="submit" class="btn btn-success btn-send" value="Добавить фото">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.8 -->
+            </div>
+            <!-- /.row-->
+        </div>
+        <!-- /.container-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js" integrity="sha256-dHf/YjH1A4tewEsKUSmNnV05DDbfGN3g7NMq86xgGh8=" crossorigin="anonymous"></script>
+        <script src="contact.js"></script>
+    </body>
+</html>

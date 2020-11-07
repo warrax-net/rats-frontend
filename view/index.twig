@@ -1,0 +1,12 @@
+<html>
+<body>
+<h1>Крысаки</h1>
+{% for rat in rats %}
+    <h3>{{ rat.name }}</h3>
+    <span>{% if rat.birth_date_d > 0 %}{{ rat.birth_date_d }}.{% endif %}{{ rat.birth_date_m }}.{{ rat.birth_date_y }}</span> - <span>{% if rat.death_date_d > 0 %}{{ rat.death_date_d }}.{% endif %}{{ rat.death_date_m }}.{{ rat.death_date_y }}</span>
+    <div><em>{{ rat.description }}</em></div>
+{% else %}
+    <h3>No rats have been found.<.h3>
+{% endfor %}
+</body>
+</html>
