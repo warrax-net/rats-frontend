@@ -15,6 +15,8 @@
             <script src="https://code.jquery.com/jquery-migrate-3.3.1.min.js" integrity="sha256-APllMc0V4lf/Rb5Cz4idWUCYlBDG3b0EcN1Ushd3hpE=" crossorigin="anonymous"></script>
         <script>
             $(document).ready(function(){
+                let imgPath = $('#url').val();
+                $(`<img width='640' src='${imgPath}'>`).appendTo('.messages');
                 $( ".add-row" ).click(function(){
                     var $clone = $("div.rat-ids" ).last().clone();
                     
@@ -48,9 +50,9 @@
             <div class="row">
                 <div class="col-xl-10">
                     <h1>Крысаки</h1>
-                    <h3>Добавить новое фото</h3>
+                    <h3>Редактировать данные фото</h3>
                     <h5><a href="index.php">Фото: список</a> &bull; <a href="../index.php">Админ панель</a></h5>
-                    <form id="photo-form" method="post" action="form_add.php" role="form">
+                    <form id="photo-form" method="post" action="form_edit.php" role="form">
                         <div class="messages">
                             <p style="padding: 10px; background-color: lightgreen; {% if success == '' %}display:none;{% endif %}">{% if success != '' %}{{ success }}{% endif %}</p>
                         </div>
@@ -59,7 +61,8 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="title">Название *</label>
-                                        <input id="title" type="text" name="title" class="form-control" placeholder="Добавьте заголовок фото *" required="required" data-error="Заговолок не может быть пустым.">
+                                        <input id="id" type="hidden" name="id" class="form-control" value="{{ post.id }}">
+                                        <input id="title" type="text" name="title" value="{{ post.title }}" class="form-control" placeholder="Добавьте заголовок фото *" required="required" data-error="Заговолок не может быть пустым.">
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
@@ -68,7 +71,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="description">Описание *</label>
-                                        <textarea id="description" name="description" class="form-control" placeholder="Добавьте описание *" required="required" data-error="Описание не может быть пустым." rows="5"></textarea>
+                                        <textarea id="description" name="description" class="form-control" placeholder="Добавьте описание *" required="required" data-error="Описание не может быть пустым." rows="5">{{ post.description }}</textarea>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
@@ -77,7 +80,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="url">URI фото *</label>
-                                        <input id="url" type="text" name="url" class="form-control" placeholder="Добавьте ссылку на фото *" required="required" data-error="Ссылка не может быть пустой.">
+                                        <input id="url" type="text" name="url" class="form-control" value="{{ post.url }}" placeholder="Добавьте ссылку на фото *" required="required" data-error="Ссылка не может быть пустой.">
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
@@ -134,16 +137,22 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
+                                {% for rat_id in post.rat_ids %}
                                     <div class="form-group rat-ids">
-                                        <label style="float: left;" for="rat_ids[0]" class="rat-ids">Крысаки на фото: *</label>
-                                        <select style="margin-left: 20px; float: left; width: 75%;" id="rat_ids[0]" name="rat_ids[0]" class="rat-ids form-control" required="required" data-error="Выберите крысака">
-                                            <option value=""></option>
+                                        <label style="float: left;" for="rat_ids[{{loop.index}}]" class="rat-ids">Крысаки на фото: *</label>
+                                        <select style="margin-left: 20px; float: left; width: 75%;" id="rat_ids[{{loop.index}}]" name="rat_ids[{{loop.index}}]" class="rat-ids form-control" required="required" data-error="Выберите крысака">
+                                            <option value=""> - </option>
                                             {% for rat in rats %}
-                                                <option value="{{ rat.id }}">{{ rat.name }} ({% if rat.birth_date_d > 0 %}{{ rat.birth_date_d }}.{% endif %}{{ rat.birth_date_m }}.{{ rat.birth_date_y }} — {% if rat.death_date_d > 0 %}{{ rat.death_date_d }}.{% endif %}{{ rat.death_date_m }}.{{ rat.death_date_y }}, {{ rat.color }})</option>
+                                                {% if rat.id == rat_id %}
+                                                    <option selected value="{{ rat.id }}">{{ rat.name }} ({% if rat.birth_date_d > 0 %}{{ rat.birth_date_d }}.{% endif %}{{ rat.birth_date_m }}.{{ rat.birth_date_y }} — {% if rat.death_date_d > 0 %}{{ rat.death_date_d }}.{% endif %}{{ rat.death_date_m }}.{{ rat.death_date_y }}, {{ rat.color }})</option>
+                                                {% else %}
+                                                    <option value="{{ rat.id }}">{{ rat.name }} ({% if rat.birth_date_d > 0 %}{{ rat.birth_date_d }}.{% endif %}{{ rat.birth_date_m }}.{{ rat.birth_date_y }} — {% if rat.death_date_d > 0 %}{{ rat.death_date_d }}.{% endif %}{{ rat.death_date_m }}.{{ rat.death_date_y }}, {{ rat.color }})</option>
+                                                {% endif %}  
                                             {% endfor %}
                                         </select>
                                         <div class="help-block with-errors"></div>
                                     </div>
+                                {% endfor %}
                                     <div class="rat-block"></div>
                                 </div>
                             </div>
@@ -157,7 +166,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <input type="submit" class="btn btn-success btn-send" value="Добавить фото">
+                                        <input type="submit" class="btn btn-success btn-send" value="Обновить фото">
                                     </div>
                                 </div>
                             </div>

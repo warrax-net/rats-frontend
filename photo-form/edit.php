@@ -23,7 +23,7 @@ if ($info === 200) {
     $twig = new \Twig\Environment($loader, [
         'cache' => __DIR__ . '/../compile/cache',
     ]);
-    $template = $twig->load('photo_add.twig');
+    $template = $twig->load('photo_edit.twig');
     $year = date("Y");
     $years = [];
     for ($i = 1998; $i <= $year; $i++) {

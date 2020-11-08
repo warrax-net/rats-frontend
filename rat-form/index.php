@@ -18,6 +18,16 @@ curl_close($cURLConnection);
 if ($info === 200) {
     // If response HTTP status code is 200 OK
     $responseArr = json_decode($response, true); // JSON decode response body
+    $rats = [];
+    if (isset($_GET['filter_is_alive'])) {
+        foreach($responseArr['body'] as $item) {
+            if ($item['is_alive'] == $_GET['filter_is_alive']) {
+                array_push($rats, $item);
+            }
+        }
+    } else {
+        $rats = $responseArr['body'];
+    }
     $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../view');
     $twig = new \Twig\Environment($loader, [
         'cache' => __DIR__ . '/../compile/cache',
@@ -25,10 +35,10 @@ if ($info === 200) {
     $template = $twig->load('rat_index.twig');
     $year = date("Y");
     $years = [];
-    for ($i = 1998; $i < $year; $i++) {
+    for ($i = 1998; $i <= $year; $i++) {
         array_push($years, $i);
     }
-    echo $template->render(['months' => MONTHS, 'days' => DAYS, 'years' => $years, 'rats' => $responseArr['body']]);
+    echo $template->render(['months' => MONTHS, 'days' => DAYS, 'years' => $years, 'rats' => $rats]);
 } else {
     echo $url;
 }

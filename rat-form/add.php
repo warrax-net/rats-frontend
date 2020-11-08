@@ -9,7 +9,7 @@ $twig = new \Twig\Environment($loader, [
 $template = $twig->load('rat_add.twig');
 $year = date("Y");
 $years = [];
-for ($i = 1998; $i < $year; $i++) {
+for ($i = 1998; $i <= $year; $i++) {
     array_push($years, $i);
 }
 $success = !empty($_GET['success']) ? $_GET['success'] : '';
