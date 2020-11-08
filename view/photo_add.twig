@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="ru">
     <head>
-        <title>Contact Form Tutorial by Bootstrapious.com</title>
         <meta charset="UTF-8">
+        <title>Крысаки: Добавить нового фото</title>
+        <description style="display: none;">Форма добавления нового фото</description>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
         <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
@@ -40,8 +41,6 @@
                     $(`<img width='640' src='${imgPath}'>`).appendTo('.messages');
                 });
             });
-
-            
         </script>
     </head>
     <body>
@@ -52,7 +51,7 @@
                     <h3>Добавить новое фото</h3>
                     <form id="photo-form" method="post" action="form_add.php" role="form">
                         <div class="messages">
-                            <p>{% if success != '' %}{{  success }}{% endif %}</p>
+                            <p style="padding: 10px; background-color: lightgreen; {% if success == '' %}display:none;{% endif %}">{% if success != '' %}{{ success }}{% endif %}</p>
                         </div>
                         <div class="controls">
                             <div class="row">
@@ -173,6 +172,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js" integrity="sha256-dHf/YjH1A4tewEsKUSmNnV05DDbfGN3g7NMq86xgGh8=" crossorigin="anonymous"></script>
-        <script src="contact.js"></script>
+        <script src="photo.js"></script>
     </body>
 </html>

@@ -14,23 +14,27 @@ try
     if (empty($_POST)) {
         throw new \Exception('Form is empty');
     }
-    $rat_ids = [];
-    foreach ($_POST['rat_ids'] as $rat_id) {
-        array_push($rat_ids, $rat_id);
-    }
+    
     $json = [
-        'title' => $_POST['title'],
+        'name' => $_POST['name'],
+        'color' => $_POST['color'],
         'description' => $_POST['description'],
-        'url' => $_POST['url'],
-        'date_d' => $_POST['date_d'],
-        'date_m' => $_POST['date_m'],
-        'date_y' => $_POST['date_y'],
-        'rat_ids' => $rat_ids,
+        'death_reason' => $_POST['death_reason'],
+        'is_alive' => isset($_POST['is_alive']) && $_POST['is_alive'] == '1' ? 1 : 0,
+        'birth_date_d' => $_POST['birth_date_d'],
+        'birth_date_m' => $_POST['birth_date_m'],
+        'birth_date_y' => $_POST['birth_date_y'],
+        'death_date_d' => $_POST['death_date_d'],
+        'death_date_m' => $_POST['death_date_m'],
+        'death_date_y' => $_POST['death_date_y'],
+        'arrival_date_d' => $_POST['arrival_date_d'],
+        'arrival_date_m' => $_POST['arrival_date_m'],
+        'arrival_date_y' => $_POST['arrival_date_y'],
     ];
     $postdata = json_encode($json);
     // echo $postdata;
     // Set up URL
-    $url = SERVER_URL . '/api/photo/create.php';
+    $url = SERVER_URL . '/api/rat/create.php';
     // echo $url;
     // Perform GET from URL and authorization headers
     $headers  = [
@@ -57,7 +61,7 @@ try
         $responseArr = json_decode($response, true); // JSON decode response body
         $success = urlencode($response);
         ?>
-        <form id="photoForm" action="add.php?success=<?php echo $success?>" method="post">
+        <form id="ratForm" action="add.php?success=<?php echo $success?>" method="post">
         <?php
             foreach ($_POST as $a => $b) {
                 echo '<input type="hidden" name="'.htmlentities($a).'" value="'.htmlentities($b).'">';
@@ -65,7 +69,7 @@ try
         ?>
         </form>
         <script type="text/javascript">
-            document.getElementById('photoForm').submit();
+            document.getElementById('ratForm').submit();
         </script>
         <?php
     } else {
