@@ -144,9 +144,9 @@
                                             <option value=""> - </option>
                                             {% for rat in rats %}
                                                 {% if rat.id == rat_id %}
-                                                    <option selected value="{{ rat.id }}">{{ rat.name }} ({% if rat.birth_date_d > 0 %}{{ rat.birth_date_d }}.{% endif %}{{ rat.birth_date_m }}.{{ rat.birth_date_y }} — {% if rat.death_date_d > 0 %}{{ rat.death_date_d }}.{% endif %}{{ rat.death_date_m }}.{{ rat.death_date_y }}, {{ rat.color }})</option>
+                                                    <option selected value="{{ rat.id }}"> {{ rat.name }} </option>
                                                 {% else %}
-                                                    <option value="{{ rat.id }}">{{ rat.name }} ({% if rat.birth_date_d > 0 %}{{ rat.birth_date_d }}.{% endif %}{{ rat.birth_date_m }}.{{ rat.birth_date_y }} — {% if rat.death_date_d > 0 %}{{ rat.death_date_d }}.{% endif %}{{ rat.death_date_m }}.{{ rat.death_date_y }}, {{ rat.color }})</option>
+                                                    <option value="{{ rat.id }}"> {{ rat.name }} </option>
                                                 {% endif %}  
                                             {% endfor %}
                                         </select>

@@ -38,7 +38,7 @@ if ($info === 200) {
     for ($i = 1998; $i <= $year; $i++) {
         array_push($years, $i);
     }
-    echo $template->render(['months' => MONTHS, 'days' => DAYS, 'years' => $years, 'rats' => $rats]);
+    echo $template->render(['months' => MONTHS, 'days' => DAYS, 'years' => $years, 'rats' => $rats, 'day' => DAY, 'month' => MONTH]);
 } else {
     echo $url;
 }

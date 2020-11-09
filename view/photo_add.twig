@@ -134,16 +134,33 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
+                                {% for rat_id in post.rat_ids %}
                                     <div class="form-group rat-ids">
-                                        <label style="float: left;" for="rat_ids[0]" class="rat-ids">Крысаки на фото: *</label>
-                                        <select style="margin-left: 20px; float: left; width: 75%;" id="rat_ids[0]" name="rat_ids[0]" class="rat-ids form-control" required="required" data-error="Выберите крысака">
-                                            <option value=""></option>
+                                        <label style="float: left;" for="rat_ids[{{loop.index}}]" class="rat-ids">Крысаки на фото: *</label>
+                                        <select style="margin-left: 20px; float: left; width: 75%;" id="rat_ids[{{loop.index}}]" name="rat_ids[{{loop.index}}]" class="rat-ids form-control" required="required" data-error="Выберите крысака">
+                                            <option value=""> - </option>
                                             {% for rat in rats %}
-                                                <option value="{{ rat.id }}">{{ rat.name }} ({% if rat.birth_date_d > 0 %}{{ rat.birth_date_d }}.{% endif %}{{ rat.birth_date_m }}.{{ rat.birth_date_y }} — {% if rat.death_date_d > 0 %}{{ rat.death_date_d }}.{% endif %}{{ rat.death_date_m }}.{{ rat.death_date_y }}, {{ rat.color }})</option>
+                                                {% if rat.id == rat_id %}
+                                                    <option selected value="{{ rat.id }}"> {{ rat.name }} </option>
+                                                {% else %}
+                                                    <option value="{{ rat.id }}"> {{ rat.name }} </option>
+                                                {% endif %}  
                                             {% endfor %}
                                         </select>
                                         <div class="help-block with-errors"></div>
                                     </div>
+                                {% else %}
+                                    <div class="form-group rat-ids">
+                                        <label style="float: left;" for="rat_ids[0]" class="rat-ids">Крысаки на фото: *</label>
+                                        <select style="margin-left: 20px; float: left; width: 75%;" id="rat_ids[0]" name="rat_ids[0]" class="rat-ids form-control" required="required" data-error="Выберите крысака">
+                                            <option value=""> - </option>
+                                            {% for rat in rats %}
+                                                <option value="{{ rat.id }}"> {{ rat.name }} </option>
+                                            {% endfor %}
+                                        </select>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                {% endfor %}
                                     <div class="rat-block"></div>
                                 </div>
                             </div>
