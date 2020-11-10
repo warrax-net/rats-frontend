@@ -25,6 +25,7 @@ try
         'date_d' => $_POST['date_d'],
         'date_m' => $_POST['date_m'],
         'date_y' => $_POST['date_y'],
+        'is_video' => isset($_POST['is_video']) && $_POST['is_video'] == '1' ? 1 : 0,
         'rat_ids' => $rat_ids,
     ];
     $postdata = json_encode($json);

@@ -2,8 +2,8 @@
 <html lang="ru">
     <head>
         <meta charset="UTF-8">
-        <title>Крысаки: Добавить нового фото</title>
-        <description style="display: none;">Форма добавления нового фото</description>
+        <title>Крысаки: Добавить нового медиа</title>
+        <description style="display: none;">Форма добавления нового медиа</description>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
         <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
@@ -37,8 +37,17 @@
                     $(this).parent().remove();
                 });
                 $('#url').change(function() {
-                    let imgPath = $('#url').val();
-                    $(`<img width='640' src='${imgPath}'>`).appendTo('.messages');
+                    if ($('#is_video').is(':checked') == true) {
+                        $('#video-iframe').remove();
+                        let imgPath = $('#url').val();
+                        $(`<iframe id='video-iframe' width='640' height='480' src='${imgPath}'></iframe>`).appendTo('.messages');
+                        $('#photo-img').remove();
+                    } else {
+                        $('#photo-img').remove();
+                        let imgPath = $('#url').val();
+                        $(`<img id='photo-img' width='640' src='${imgPath}'>`).appendTo('.messages');
+                        $('#video-iframe').remove();
+                    }
                 });
             });
         </script>
@@ -48,8 +57,8 @@
             <div class="row">
                 <div class="col-xl-10">
                     <h1>Крысаки</h1>
-                    <h3>Добавить новое фото</h3>
-                    <h5><a href="index.php">Фото: список</a> &bull; <a href="../index.php">Админ панель</a></h5>
+                    <h3>Добавить новое медиа</h3>
+                    <h5><a href="index.php">Медиа: список</a> &bull; <a href="../index.php">Админ панель</a></h5>
                     <form id="photo-form" method="post" action="form_add.php" role="form">
                         <div class="messages">
                             <p style="padding: 10px; background-color: lightgreen; {% if success == '' %}display:none;{% endif %}">{% if success != '' %}{{ success }}{% endif %}</p>
@@ -59,7 +68,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="title">Название *</label>
-                                        <input id="title" type="text" name="title" class="form-control" placeholder="Добавьте заголовок фото *" required="required" data-error="Заговолок не может быть пустым.">
+                                        <input id="title" type="text" name="title" class="form-control" placeholder="Добавьте заголовок медиа *" required="required" data-error="Заговолок не может быть пустым.">
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
@@ -74,10 +83,19 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="is_video">Видео ? </label>
+                                        <input id="is_video" type="checkbox" {% if post.is_video == 1 %} checked="true" {% endif %} name="is_video" value="1" class="form-control">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                            </div>   
+                            <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="url">URI фото *</label>
-                                        <input id="url" type="text" name="url" class="form-control" placeholder="Добавьте ссылку на фото *" required="required" data-error="Ссылка не может быть пустой.">
+                                        <label for="url">URI медиа *</label>
+                                        <input id="url" type="text" name="url" class="form-control" placeholder="Добавьте ссылку на медиа *" required="required" data-error="Ссылка не может быть пустой.">
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
@@ -136,8 +154,8 @@
                                 <div class="col-md-12">
                                 {% for rat_id in post.rat_ids %}
                                     <div class="form-group rat-ids">
-                                        <label style="float: left;" for="rat_ids[{{loop.index}}]" class="rat-ids">Крысаки на фото: *</label>
-                                        <select style="margin-left: 20px; float: left; width: 75%;" id="rat_ids[{{loop.index}}]" name="rat_ids[{{loop.index}}]" class="rat-ids form-control" required="required" data-error="Выберите крысака">
+                                        <label style="float: left;" for="rat_ids[{{loop.index}}]" class="rat-ids">Крысаки: *</label>
+                                        <select style="margin-left: 20px; float: left; width: 90%;" id="rat_ids[{{loop.index}}]" name="rat_ids[{{loop.index}}]" class="rat-ids form-control" required="required" data-error="Выберите крысака">
                                             <option value=""> - </option>
                                             {% for rat in rats %}
                                                 {% if rat.id == rat_id %}
@@ -151,8 +169,8 @@
                                     </div>
                                 {% else %}
                                     <div class="form-group rat-ids">
-                                        <label style="float: left;" for="rat_ids[0]" class="rat-ids">Крысаки на фото: *</label>
-                                        <select style="margin-left: 20px; float: left; width: 75%;" id="rat_ids[0]" name="rat_ids[0]" class="rat-ids form-control" required="required" data-error="Выберите крысака">
+                                        <label style="float: left;" for="rat_ids[0]" class="rat-ids">Крысаки: *</label>
+                                        <select style="margin-left: 20px; float: left; width: 90%;" id="rat_ids[0]" name="rat_ids[0]" class="rat-ids form-control" required="required" data-error="Выберите крысака">
                                             <option value=""> - </option>
                                             {% for rat in rats %}
                                                 <option value="{{ rat.id }}"> {{ rat.name }} </option>
@@ -174,7 +192,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <input type="submit" class="btn btn-success btn-send" value="Добавить фото">
+                                        <input type="submit" class="btn btn-success btn-send" value="Добавить медиа">
                                     </div>
                                 </div>
                             </div>

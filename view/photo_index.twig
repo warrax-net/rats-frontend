@@ -2,8 +2,8 @@
 <html lang="ru">
     <head>
         <meta charset="UTF-8">
-        <title>Крысаки: Список фото для редактирования</title>
-        <description style="display: none;">Административная форма всех фото</description>
+        <title>Крысаки: Список медиа для редактирования</title>
+        <description style="display: none;">Административная форма всех медиа</description>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -16,7 +16,7 @@
             <script src="https://code.jquery.com/jquery-migrate-3.3.1.min.js" integrity="sha256-APllMc0V4lf/Rb5Cz4idWUCYlBDG3b0EcN1Ushd3hpE=" crossorigin="anonymous"></script>
         <script>
             function confirmSubmit() {
-                if (confirm("Вы уверены что хотите удалить фото?")) {
+                if (confirm("Вы уверены что хотите удалить медиа?")) {
                     return true;
                 } else {
                     return false;
@@ -71,8 +71,8 @@
             <div class="row">
                 <div class="col-xl-12">
                     <h1>Крысаки</h1>
-                    <h2>Фото</h2>
-                    <h3>Список фото для редактирования</h3>
+                    <h2>Медиа</h2>
+                    <h3>Список медиа для редактирования</h3>
                     <h5><a href="../index.php">Админ панель</a></h5>
                     <div class="messages">
                         <p style="padding: 10px; background-color: lightgreen; {% if success == '' %}display:none;{% endif %}">{% if success != '' %}{{ success }}{% endif %}</p>
@@ -81,7 +81,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <input type="submit" onclick="window.location='add.php';" class="btn btn-success btn-send" value="Добавить фото">
+                                    <input type="submit" onclick="window.location='add.php';" class="btn btn-success btn-send" value="Добавить медиа">
                                 </div>
                             </div>
                         </div>
@@ -109,8 +109,12 @@
                                 </button>
                             </form>
                             <h5 style="font-size:12px; word-break: break-word; overflow-wrap: break-word; width: 200px; text-align: center;">{{ photo.title }}</h5>
-                            <h6 style="font-size:10.5px; word-break: break-word; overflow-wrap: break-word; width: 200px; text-align: center;">{% if photo.date_d > 0 %}{{ photo.date_d }}.{% endif %}{{ photo.date_m }}.{{ photo.date_y }}</h6>
-                            <img src="{{ photo.url }}" style="padding: 5px; width: 200px; height: 150px;  object-fit: cover;" />
+                            <h5 style="font-size:10.5px; word-break: break-word; overflow-wrap: break-word; width: 200px; text-align: center;">{% if photo.date_d > 0 %}{{ photo.date_d }}.{% endif %}{{ photo.date_m }}.{{ photo.date_y }}  {% if photo.is_video == 1 %}<i class="fa fa-video-camera"></i>{% else %}<i class="fa fa-picture-o"></i>{% endif %}</h5>
+                            {% if photo.is_video == 1 %}
+                                <iframe id='video-iframe' width='200' height='150' src='{{ photo.url }}'></iframe>
+                            {% else %}
+                                <a href="{{ photo.url }}"><img src="{{ photo.url }}" style="padding: 5px; width: 200px; height: 150px;  object-fit: cover;" /></a>
+                            {% endif %}
                             <p style="padding: 5px; font-size:9px; word-break: break-word; overflow-wrap: break-word; width: 200px; text-align: justify; line-height: 1;">{{ photo.description }}</p>
                         </div>
                     {% endfor %}

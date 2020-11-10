@@ -22,6 +22,7 @@ try
         'id' => $_POST['id'],
         'title' => $_POST['title'],
         'description' => $_POST['description'],
+        'is_video' => isset($_POST['is_video']) && $_POST['is_video'] == '1' ? 1 : 0,
         'url' => $_POST['url'],
         'date_d' => $_POST['date_d'],
         'date_m' => $_POST['date_m'],
