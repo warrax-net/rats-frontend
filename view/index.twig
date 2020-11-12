@@ -15,6 +15,13 @@
             <script src="https://code.jquery.com/jquery-migrate-3.3.1.min.js" integrity="sha256-APllMc0V4lf/Rb5Cz4idWUCYlBDG3b0EcN1Ushd3hpE=" crossorigin="anonymous"></script>
         <script>
             $(document).ready(function(){
+                $("#all_alive").change(function() {
+                    if (this.checked) {
+                        $(".alive").hide();
+                    } else {
+                        $(".alive").show();
+                    }
+                });
                 $( ".add-row" ).click(function(){
                     var $clone = $("div.rat-ids" ).last().clone();
                     
@@ -71,7 +78,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <a href="rat-form/index.php?filter_is_alive=0">Крысаки: список (Мёртвые)</a>
+                                    <a href="rat-form/index.php?filter_is_alive=0">Крысаки: список (Ушедшие)</a>
                                 </div>
                             </div>
                         </div>
@@ -96,6 +103,87 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <h5>Фото: запрос по выборке</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <form id="photo-form" method="post" action="photo-form/query.php" role="form">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="all_alive">Всех живых: </label>
+                                    <input id="all_alive" type="checkbox" name="all_alive" value="1" class="form-control">
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row alive">
+                            <div class="col-md-12">                           
+                                <div class="form-group rat-ids">
+                                    <label style="float: left;" for="rat_ids[0]" class="rat-ids">Крысаки: *</label>
+                                    <select style="margin-left: 20px; float: left; width: 85%;" id="rat_ids[0]" name="rat_ids[0]" class="rat-ids form-control">
+                                        <option value=""> - </option>
+                                        {% for rat in rats %}
+                                            <option value="{{ rat.id }}"> {{ rat.name }} </option>
+                                        {% endfor %}
+                                    </select>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                                <div class="rat-block"></div>
+                            </div>
+                        </div>
+                        <div class="row add-row-div alive">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <button type="button" class="add-row"> Добавить крысака + </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="date_m">Месяц *</label>
+                                    <select id="date_m" name="date_m" class="form-control" required="required" data-error="Выберите месяц.">
+                                        <option value="-1"> - </option>
+                                        {% for month in months %}
+                                            {% if month.val == post.date_m %}
+                                                <option selected value="{{ month.val }}"> {{ month.name }} </option>
+                                            {% else %}
+                                                <option value="{{ month.val }}"> {{ month.name }} </option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="date_y">Год *</label>
+                                    <select id="date_y" name="date_y" class="form-control" required="required" data-error="Выберите год.">
+                                        <option value="-1"> - </option>
+                                        {% for year in years %}
+                                            {% if year == post.date_y %}
+                                                <option selected value="{{ year }}"> {{ year }} </option>
+                                            {% else %}
+                                                <option value="{{ year }}"> {{ year }} </option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="submit" class="btn btn-success btn-send" value="Послать запрос">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

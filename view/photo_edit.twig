@@ -167,7 +167,7 @@
                                 {% for rat_id in post.rat_ids %}
                                     <div class="form-group rat-ids">
                                         <label style="float: left;" for="rat_ids[{{loop.index}}]" class="rat-ids">Крысак: *</label>
-                                        <select style="margin-left: 20px; float: left; width: 90%;" id="rat_ids[{{loop.index}}]" name="rat_ids[{{loop.index}}]" class="rat-ids form-control" required="required" data-error="Выберите крысака">
+                                        <select style="margin-left: 20px; float: left; width: 85%;" id="rat_ids[{{loop.index}}]" name="rat_ids[{{loop.index}}]" class="rat-ids form-control" required="required" data-error="Выберите крысака">
                                             <option value=""> - </option>
                                             {% for rat in rats %}
                                                 {% if rat.id == rat_id %}
@@ -177,12 +177,15 @@
                                                 {% endif %}  
                                             {% endfor %}
                                         </select>
+                                        {% if loop.index > 1 %}
+                                            <button type='button' class='remove-row' style='float: right;'> - </button>
+                                        {% endif %}
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 {% else %}
                                     <div class="form-group rat-ids">
                                         <label style="float: left;" for="rat_ids[0]" class="rat-ids">Крысаки: *</label>
-                                        <select style="margin-left: 20px; float: left; width: 90%;" id="rat_ids[0]" name="rat_ids[0]" class="rat-ids form-control" required="required" data-error="Выберите крысака">
+                                        <select style="margin-left: 20px; float: left; width: 85%;" id="rat_ids[0]" name="rat_ids[0]" class="rat-ids form-control" required="required" data-error="Выберите крысака">
                                             <option value=""> - </option>
                                             {% for rat in rats %}
                                                 <option value="{{ rat.id }}"> {{ rat.name }} </option>
