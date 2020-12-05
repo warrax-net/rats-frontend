@@ -8,8 +8,10 @@ foreach ($_POST['rat_ids'] as $rat_id) {
 }
 $json = [
     'all_alive' => isset($_POST['all_alive']) && $_POST['all_alive'] == '1' ? 1 : 0,
-    'date_m' => $_POST['date_m'],
-    'date_y' => $_POST['date_y'],
+    'from_date_m' => $_POST['from_date_m'],
+    'from_date_y' => $_POST['from_date_y'],
+    'to_date_m' => $_POST['to_date_m'],
+    'to_date_y' => $_POST['to_date_y'],
     'rat_ids' => $rat_ids,
 ];
 $postdata = json_encode($json);

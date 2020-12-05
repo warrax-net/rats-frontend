@@ -29,9 +29,12 @@ if ($info === 200) {
     for ($i = 1998; $i <= $year; $i++) {
         array_push($years, $i);
     }
-    $postdata['date_d'] = -1;
-    $postdata['date_m'] = -1;
-    $postdata['date_y'] = -1;
+    $postdata['from_date_d'] = -1;
+    $postdata['from_date_m'] = -1;
+    $postdata['from_date_y'] = -1;
+    $postdata['to_date_d'] = -1;
+    $postdata['to_date_m'] = -1;
+    $postdata['to_date_y'] = -1;
     $postdata['is_video'] = 0;
     $post = !empty($_POST) ? $_POST : $postdata;
     $template = $twig->load('index.twig');

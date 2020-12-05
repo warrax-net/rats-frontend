@@ -89,7 +89,7 @@
                     <div style="display: block">
                     {% for photo in photos %}
                         <div style="display: inline-block; width: 210px; height: 320px; margin: 5px; background-color: #EBEBEB; vertical-align: top; position: relative;">
-                            <form id="ratForm" action="edit.php" method="post">
+                            <form id="photoForm" action="edit.php" method="post">
                                 {% for key, value in photo %}
                                     {% if key == 'rat_ids' %}
                                         {% for rat_id in value %}
@@ -103,7 +103,7 @@
                                 </button>
                             </form>
 
-                            <form id="ratDelete" action="form_delete.php" method="post">
+                            <form id="photoDelete" action="form_delete.php" method="post">
                                 <input type="hidden" name="id" value="{{ photo.id }}">
                                 <button type="submit" onClick='return confirmSubmit()' class="btn btn-warning btn-send fa fa-trash-o" style="margin: 5px; position: absolute; bottom: 0; right: 45px;">
                                 </button>

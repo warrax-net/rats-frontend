@@ -111,72 +111,106 @@
                             </div>
                         </div>
                         <form id="photo-form" method="post" action="photo-form/query.php" role="form">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="all_alive">Всех живых: </label>
-                                    <input id="all_alive" type="checkbox" name="all_alive" value="1" class="form-control">
-                                    <div class="help-block with-errors"></div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="all_alive">Всех живых: </label>
+                                        <input id="all_alive" type="checkbox" name="all_alive" value="1" class="form-control">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row alive">
-                            <div class="col-md-12">                           
-                                <div class="form-group rat-ids">
-                                    <label style="float: left;" for="rat_ids[0]" class="rat-ids">Крысаки: *</label>
-                                    <select style="margin-left: 20px; float: left; width: 85%;" id="rat_ids[0]" name="rat_ids[0]" class="rat-ids form-control">
-                                        <option value=""> - </option>
-                                        {% for rat in rats %}
-                                            <option value="{{ rat.id }}"> {{ rat.name }} </option>
-                                        {% endfor %}
-                                    </select>
-                                    <div class="help-block with-errors"></div>
-                                </div>
-                                <div class="rat-block"></div>
-                            </div>
-                        </div>
-                        <div class="row add-row-div alive">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <button type="button" class="add-row"> Добавить крысака + </button>
+                            <div class="row alive">
+                                <div class="col-md-12">                           
+                                    <div class="form-group rat-ids">
+                                        <label style="float: left;" for="rat_ids[0]" class="rat-ids">Крысаки: *</label>
+                                        <select style="margin-left: 20px; float: left; width: 85%;" id="rat_ids[0]" name="rat_ids[0]" class="rat-ids form-control">
+                                            <option value=""> - </option>
+                                            {% for rat in rats %}
+                                                <option value="{{ rat.id }}"> {{ rat.name }} </option>
+                                            {% endfor %}
+                                        </select>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                    <div class="rat-block"></div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="date_m">Месяц *</label>
-                                    <select id="date_m" name="date_m" class="form-control" required="required" data-error="Выберите месяц.">
-                                        <option value="-1"> - </option>
-                                        {% for month in months %}
-                                            {% if month.val == post.date_m %}
-                                                <option selected value="{{ month.val }}"> {{ month.name }} </option>
-                                            {% else %}
-                                                <option value="{{ month.val }}"> {{ month.name }} </option>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </select>
-                                    <div class="help-block with-errors"></div>
+                            <div class="row add-row-div alive">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <button type="button" class="add-row"> Добавить крысака + </button>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="date_y">Год *</label>
-                                    <select id="date_y" name="date_y" class="form-control" required="required" data-error="Выберите год.">
-                                        <option value="-1"> - </option>
-                                        {% for year in years %}
-                                            {% if year == post.date_y %}
-                                                <option selected value="{{ year }}"> {{ year }} </option>
-                                            {% else %}
-                                                <option value="{{ year }}"> {{ year }} </option>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </select>
-                                    <div class="help-block with-errors"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="from_date_m">От (Месяц) *</label>
+                                        <select id="from_date_m" name="from_date_m" class="form-control" required="required" data-error="Выберите месяц.">
+                                            <option value="-1"> - </option>
+                                            {% for month in months %}
+                                                {% if month.val == post.from_date_m %}
+                                                    <option selected value="{{ month.val }}"> {{ month.name }} </option>
+                                                {% else %}
+                                                    <option value="{{ month.val }}"> {{ month.name }} </option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="from_date_y">От (Год) *</label>
+                                        <select id="from_date_y" name="from_date_y" class="form-control" required="required" data-error="Выберите год.">
+                                            <option value="-1"> - </option>
+                                            {% for year in years %}
+                                                {% if year == post.from_date_y %}
+                                                    <option selected value="{{ year }}"> {{ year }} </option>
+                                                {% else %}
+                                                    <option value="{{ year }}"> {{ year }} </option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="to_date_m">До (Месяц) *</label>
+                                        <select id="to_date_m" name="to_date_m" class="form-control" required="required" data-error="Выберите месяц.">
+                                            <option value="-1"> - </option>
+                                            {% for month in months %}
+                                                {% if month.val == post.to_date_m %}
+                                                    <option selected value="{{ month.val }}"> {{ month.name }} </option>
+                                                {% else %}
+                                                    <option value="{{ month.val }}"> {{ month.name }} </option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="to_date_y">До (Год) *</label>
+                                        <select id="to_date_y" name="to_date_y" class="form-control" required="required" data-error="Выберите год.">
+                                            <option value="-1"> - </option>
+                                            {% for year in years %}
+                                                {% if year == post.to_date_y %}
+                                                    <option selected value="{{ year }}"> {{ year }} </option>
+                                                {% else %}
+                                                    <option value="{{ year }}"> {{ year }} </option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <input type="submit" class="btn btn-success btn-send" value="Послать запрос">
